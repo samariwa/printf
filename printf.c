@@ -33,6 +33,12 @@ void print_args(const char format, va_list args)
 			case 'c':
 				print_char(va_arg(args, int));
 				break;
+			case 'i':
+				print_int(va_arg(args, int));
+				break;
+			case 'd':
+                                print_int(va_arg(args, int));
+                                break;
 			case 's':
 				s = va_arg(args, char *);
 				t = NULL_S(s);/* refer to definition */
