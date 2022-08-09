@@ -1,4 +1,4 @@
-#include "main.h"
+#include "printf.h"
 /* check for nulls in strings */
 #define NULL_S(S) ((S) == NULL ? ("(nil)") : (S))
 
@@ -31,15 +31,15 @@ void print_args(const char format, va_list args)
 			switch (format)
 			{
 			case 'c':
-				_putchar(va_arg(args, int));
+				print_char(va_arg(args, int));
 				break;
 			case 's':
 				s = va_arg(args, char *);
 				t = NULL_S(s);/* refer to definition */
-				_print_string(t);
+				print_string(t);
 				break;
 			case '%':
-				_putchar('%');
+				print_char('%');
 				break;
 			default:
 				break;
@@ -69,7 +69,7 @@ int _printf(const char *format, ...)
 	temp = (char *)format; /* just avoiding some errors */
 	if ((_strcmp(temp, "") == 0) || format == NULL)
 	{
-		printf("(nil)");
+		print_string("(nil)");
 		exit(EXIT_FAILURE);
 	}
 
@@ -83,7 +83,7 @@ int _printf(const char *format, ...)
 		}
 		else
 		{
-			_putchar(format[i]);
+			print_char(format[i]);
 			i++;
 		}
 	}
