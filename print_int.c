@@ -2,13 +2,15 @@
 
 /**
  * print_int - a function that prints input integer
- * @int: The number to be printed
+ * @x: The number to be printed
  *
  * Return: nothing
  */
 void print_int(int x)
 {
 	int i;
+
+	/* case it's a negative */
 	if (x < 0)
 	{
 		print_char('-');

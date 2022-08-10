@@ -8,7 +8,7 @@
 int main(void)
 {
 
-	_printf("%i %d %s %c \n", -15, 37, "imework", 'K');
+	_printf("%i %d %s %c \n", 15, -37, "imework", 'K');
 	print_int(15);
 	return (0);
 }

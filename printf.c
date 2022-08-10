@@ -19,16 +19,18 @@
 void print_args(const char format, va_list args)
 {
 	char *s, *t;
+
 	switch (format)
 	{
 	case 'c':
 		print_char(va_arg(args, int));
 		break;
 	case 'i':
-		print_int((int)va_arg(args, int));
+		print_int(va_arg(args, int));
 		break;
 	case 'd':
-		print_decimal(va_arg(args, int));
+		/*change after we finish print_decimal */
+		print_int(va_arg(args, int));
 		break;
 	case 's':
 		s = va_arg(args, char *);

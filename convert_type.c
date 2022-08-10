@@ -7,13 +7,13 @@
  *
  * Return: the converted string
  */
-char* itoa(int val, int base)
+char *itoa(int val, int base)
 {
 	static char buf[32] = {0};
 	int i = 30;
 
-	for(; val && i ; --i, val /= base)
+	for (; val && i ; --i, val /= base)
 		buf[i] = "0123456789abcdef"[val % base];
 
-	return &buf[i+1];
+	return (&buf[i + 1]);
 }
