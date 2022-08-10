@@ -4,9 +4,10 @@
  * print_char - a function that prints input number
  * @x: The character to be printed
  *
- * Return: nothing
+ * Return: Lenth or error
  */
-void print_char(char x)
+int print_char(char x)
 {
 	write(1, &x, 1);
+	return(1);
 }

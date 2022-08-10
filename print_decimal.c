@@ -4,18 +4,27 @@
  * print_decimal - a function that prints input integer
  * @x: The number to be printed
  *
- * Return: nothing
+ * Return: no of chars printed or error
  */
-void print_decimal(int x)
+int print_decimal(int x)
 {
 	char *str;
-	int i;
+	int i, count;
 
-	/*
-	 * I don't know how this works so I can't make it work
-	 * for negatives
-	 */
+	count = 0;
+	/* case it's a negative */
+	if (x < 0)
+	{
+		print_char('-');
+		count++;
+		x *= -1;
+	}
+
 	str = itoa(x, 10);/* here 10 means decimal*/
 	for (i = 0; str[i] != '\0'; i++)
+	{
 		write(1, &str[i], 1);
+		count++;
+	}
+	return (count);
 }
