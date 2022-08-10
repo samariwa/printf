@@ -7,7 +7,8 @@
  */
 int main(void)
 {
-	_printf("Hello, %s. You're %s awesome, %c.\n", "ebo", "very", 'G');
 
+	_printf("%i %d %s %c \n", -15, 37, "imework", 'K');
+	print_int(15);
 	return (0);
 }

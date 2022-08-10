@@ -18,41 +18,28 @@
  */
 void print_args(const char format, va_list args)
 {
-	int j;
 	char *s, *t;
-	const char specifiers[] = "cs%";
-
-	j = 0;
-
-	while (j < 4)
+	switch (format)
 	{
-		if (format == specifiers[j])
-		{
-			switch (format)
-			{
-			case 'c':
-				print_char(va_arg(args, int));
-				break;
-			case 'i':
-				print_int(va_arg(args, int));
-				break;
-			case 'd':
-                                print_int(va_arg(args, int));
-                                break;
-			case 's':
-				s = va_arg(args, char *);
-				t = NULL_S(s);/* refer to definition */
-				print_string(t);
-				break;
-			case '%':
-				print_char('%');
-				break;
-			default:
-				break;
-			}
-		} /* here is where we catch errors */
-		/* find a way to detect NULLS here */
-		j++;
+	case 'c':
+		print_char(va_arg(args, int));
+		break;
+	case 'i':
+		print_int((int)va_arg(args, int));
+		break;
+	case 'd':
+		print_decimal(va_arg(args, int));
+		break;
+	case 's':
+		s = va_arg(args, char *);
+		t = NULL_S(s);/* refer to definition */
+		print_string(t);
+		break;
+	case '%':
+		print_char('%');
+		break;
+	default:
+		break;
 	}
 }
 
