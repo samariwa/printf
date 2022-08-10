@@ -1,4 +1,4 @@
-#include "printf.h"
+#include "main.h"
 
 /**
  * print_float - a function that prints input float
@@ -11,7 +11,10 @@ void print_float(float x)
 	char *str;
 	int i;
 
-	/*use itoa function to convert int to string that can be input in _putchar*/
+	/*
+	 *use itoa function to convert int to string that can be
+	 * input in _putchar
+	 */
 	str = itoa(x, 10);/* here 10 means floating point notation*/
 	for (i = 0; str[i] != '\0'; i++)
 		write(1, &str[i], 1);

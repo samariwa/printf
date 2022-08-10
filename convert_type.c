@@ -1,4 +1,4 @@
-#include "printf.h"
+#include "main.h"
 
 /**
  * itoa - a function that converts an integer to a string
