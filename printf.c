@@ -63,7 +63,7 @@ int print_args(const char format, va_list args)
 int check_null(const char *format)
 {
 	char *temp;
-	int i, j, r_val = -1;
+	int i, j, r_val = 1;
 	char options[] = {'c', 's', 'd', 'i', '%', '\0'};
 
 	if (format == NULL || (format[0] == '%' && format[1] == '\0'))
@@ -89,6 +89,7 @@ int check_null(const char *format)
 			    (i + 1) >= _strlen(temp))
 			{
 				r_val = -1;
+				break;
 			}
 
 			j++;
@@ -148,7 +149,6 @@ int _printf(const char *format, ...)
 			i++;
 		}
 	}
-	printf("Got here\n");
 	va_end(args);
 	return (count);
 }
