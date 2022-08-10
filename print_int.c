@@ -8,12 +8,10 @@
  */
 int print_int(int x)
 {
-	int i, count, y;
+	int count;
 	char *str;
 
 	count = 0;
-	y = 0;
-
 
 	/* case it's a negative */
 	if (x < 0)
@@ -25,7 +23,6 @@ int print_int(int x)
 
 	if (x == INT_MIN)
 	{
-		y = 1;
 		str = itoa(x - 1, 10);
 		str[_strlen("2147483647") - 1] = '8';
 	}

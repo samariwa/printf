@@ -115,7 +115,6 @@ int _printf(const char *format, ...)
 	int i, count, isnull;
 	char *temp;
 	va_list args;
-	va_list test;
 
 	isnull = check_null(format);
 	if (isnull < 0)
