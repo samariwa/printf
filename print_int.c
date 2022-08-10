@@ -8,9 +8,13 @@
  */
 int print_int(int x)
 {
-	int i, count;
+	int i, count, y;
+	char *str;
 
 	count = 0;
+	y = 0;
+
+
 	/* case it's a negative */
 	if (x < 0)
 	{
@@ -19,20 +23,17 @@ int print_int(int x)
 		x *= -1;
 	}
 
-	i = 10;
-	/* use intmax because we want to print even large numbers */
-	/* x/i returns something for 10/10 or 10/11 but 0 for 10/9 */
-	while (i < INT_MAX && x / i)
+	if (x == INT_MIN)
 	{
-		if (x / i)
-		{
-			print_char((x / i) + '0');
-			count++;
-		}
-		i = i * 10;
+		y = 1;
+		str = itoa(x - 1, 10);
+		str[_strlen("2147483647") - 1] = '8';
 	}
-	print_char((x % 10) + '0');
-	count++;
+	else
+	{
+		str = itoa(x, 10);
+	}
+	count += print_string(str);
 
 	return (count);
 }

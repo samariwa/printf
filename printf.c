@@ -1,6 +1,6 @@
 #include "main.h"
 /* check for nulls in strings */
-#define NULL_S(S) ((S) == NULL ? ("(nil)") : (S))
+#define NULL_S(S) ((S) == NULL ? (-1) : (1))
 
 /**
  * print_args - print given variadic arguments given type specifier from printf
@@ -18,8 +18,8 @@
  */
 int print_args(const char format, va_list args)
 {
-	char *s, *t;
-	int count;
+	char *s;
+	int count, t;
 
 	switch (format)
 	{
@@ -36,16 +36,71 @@ int print_args(const char format, va_list args)
 	case 's':
 		s = va_arg(args, char *);
 		t = NULL_S(s);/* refer to definition */
-		count = print_string(t);
+		if (t == -1)
+		{
+			return (-1);
+		}
+		count = print_string(s);
 		break;
 	case '%':
 		count = print_char('%');
 		break;
 	default:
+		count = -1;
 		break;
 	}
 
 	return (count);
+}
+
+/**
+ * check_null - check if the _printf function has
+ * a string that does not act as we expect
+ * this has nothing to do with our variadic
+ * @format: the string we wanna check
+ * Return: 0 if ok else -1
+ */
+int check_null(const char *format)
+{
+	char *temp;
+	int i, j, r_val = -1;
+	char options[] = {'c', 's', 'd', 'i', '%', '\0'};
+
+	if (format == NULL || (format[0] == '%' && format[1] == '\0'))
+	{
+		return (-1);
+	}
+
+	/* check for % without correct specifiers */
+	i = 0;
+	temp = (char *)format;
+	while (i < _strlen(temp))
+	{
+		j = 0;
+		while (j < 5)
+		{
+			if ((format[i] == '%' &&
+			     format[i + 1] == options[j] &&
+			     (i + 1) < _strlen(temp)))
+			{
+				r_val = 0;
+			}
+			if (format[i] == '%' &&
+			    (i + 1) >= _strlen(temp))
+			{
+				r_val = -1;
+			}
+
+			j++;
+		}
+		i++;
+	}
+	/* check if there was a mismatch with our flags */
+	if (r_val < 0)
+	{
+		return (-1);
+	}
+	return (0);
 }
 
 /**
@@ -57,17 +112,24 @@ int print_args(const char format, va_list args)
  */
 int _printf(const char *format, ...)
 {
-	int i, count;
+	int i, count, isnull;
 	char *temp;
 	va_list args;
+	va_list test;
+
+	isnull = check_null(format);
+	if (isnull < 0)
+	{
+		return (-1);
+	}
 
 	va_start(args, format);
 
 	temp = (char *)format; /* just avoiding some errors */
-	if ((_strcmp(temp, "") == 0) || format == NULL)
+	if (_strcmp(temp, "") == 0)
 	{
 		print_string("(nil)");
-		return(-1);
+		return (-1);
 	}
 
 	count = 0;
@@ -87,7 +149,7 @@ int _printf(const char *format, ...)
 			i++;
 		}
 	}
-
+	printf("Got here\n");
 	va_end(args);
-	return(count);
+	return (count);
 }

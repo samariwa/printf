@@ -11,5 +11,6 @@ int main(void)
 	len1 = _printf("%d. Let's print a simple sentence, %s.\n%i. %c, This works\n", 1, "one", 2, 'G');
 	len2 = printf("%d. Let's print a simple sentence, %s.\n%i. %c, This works\n", 2, "two", 2, 'G');
 	_printf("%i %d %s %c \n", len1, len2, "imework", 'K');
+	_printf("%i, %i\n", INT_MAX, INT_MIN);
 	return (0);
 }
