@@ -18,38 +18,66 @@
  */
 int print_args(const char format, va_list args)
 {
-	char *s;
-	int count, t;
+	char *s, *r;
+	int count, i = 0, j = 0;
+	unsigned int p;
+	bool format_in_unsigned_array = false, format_in_signed_array = false;
+	char unsigned_specifiers[5] = {'o', 'b', 'x', 'X', 'u'};
+	char signed_specifiers[3] = {'c', 'i', 'd'};
+	int (*print_unsigned_func_arr[])(unsigned int) = {
+	print_octal, print_binary,print_hexadecimal_small, print_hexadecimal_caps, 
+	print_unsigned
+	};
+	int (*print_signed_func_arr[])(int) = {
+        print_char, print_int, print_decimal
+        };
 
-	switch (format)
+	for (; i < 5; i++)
 	{
-	case 'c':
-		count = print_char(va_arg(args, int));
-		break;
-	case 'i':
-		count = print_int(va_arg(args, int));
-		break;
-	case 'd':
-		/*change after we finish print_decimal */
-		count = print_decimal(va_arg(args, int));
-		break;
-	case 's':
-		s = va_arg(args, char *);
-		t = NULL_S(s);/* refer to definition */
-		if (t == -1)
+		if (format == unsigned_specifiers[i])
 		{
-			return (-1);
+			format_in_unsigned_array = true;
+			break;
 		}
-		count = print_string(s);
-		break;
-	case '%':
-		count = print_char('%');
-		break;
-	default:
-		count = -1;
-		break;
 	}
-
+	for (; j < 3; j++)
+        {
+                if (format == signed_specifiers[j])
+                {
+                        format_in_signed_array = true;
+                        break;
+                }
+        }
+	if (format_in_signed_array == true)
+		count = (*print_signed_func_arr[j])(va_arg(args, int));
+	else if (format_in_unsigned_array == true)
+                count = (*print_unsigned_func_arr[i])(va_arg(args, unsigned int));
+	else
+	{
+		switch (format)
+		{
+		case 's':
+			s = va_arg(args, char *);
+			if (NULL_S(s) == -1)
+				return (-1);
+			count = print_string(s);
+			break;
+		case 'r':
+			r = va_arg(args, char *);
+			count = print_rev(r);
+			break;
+		case 'p':
+			p = (uintptr_t)va_arg(args,void *);
+			count = print_pointer(p);
+			break;	
+		case '%':
+			count = print_char('%');
+			break;
+		default:
+			count = -1;
+			break;
+		}
+	}
 	return (count);
 }
 

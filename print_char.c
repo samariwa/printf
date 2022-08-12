@@ -6,8 +6,10 @@
  *
  * Return: Lenth or error
  */
-int print_char(char x)
+int print_char(int x)
 {
-	write(1, &x, 1);
+	char c = (char)x;
+
+	write(1, &c, 1);
 	return (1);
 }
