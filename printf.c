@@ -20,6 +20,7 @@ int print_args(const char format, va_list args)
 {
 	char *s, *r;
 	int count, i = 0, j = 0;
+	unsigned int p;
 	bool format_in_unsigned_array = false, format_in_signed_array = false;
 	char unsigned_specifiers[5] = {'o', 'b', 'x', 'X', 'u'};
 	char signed_specifiers[3] = {'c', 'i', 'd'};
@@ -64,6 +65,10 @@ int print_args(const char format, va_list args)
 		case 'r':
 			r = va_arg(args, char *);
 			count = print_rev(r);
+			break;
+		case 'p':
+			p = (uintptr_t)va_arg(args,void *);
+			count = print_pointer(p);
 			break;	
 		case '%':
 			count = print_char('%');

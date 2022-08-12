@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
+#include<stdint.h>
 #include <stdbool.h>
 #include <limits.h>
 /* supporting functions */
@@ -12,6 +13,7 @@ int print_string(char *str);
 int print_char(int x);
 int _strcmp(char *s1, char *s2);
 int print_int(int x);
+int print_pointer(unsigned int ptr);
 int print_binary(unsigned int x);
 int print_decimal(int x);
 void print_float(float x);

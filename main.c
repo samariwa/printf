@@ -8,6 +8,8 @@
 int main(void)
 {
 	int len1, len2;
+	void *addr = (void *)0x7ffe637541f0;
+
 	len1 = _printf("%d. Let's print a simple sentence, %s.\n%i. %c, This works\n", 1, "one", 2, 'G');
 	len2 = printf("%d. Let's print a simple sentence, %s.\n%i. %c, This works\n", 2, "two", 2, 'G');
 	_printf("%i %d %s %c \n", len1, len2, "imework", 'K');
@@ -34,7 +36,11 @@ int main(void)
 	_printf("%b\n", 150);
 	_printf("%b\n", -1024);
 
-	_printf("%r\n", "String");
+	_printf("%r", "\nThis sentence is retrieved from va_args!");
+	_printf("Complete the sentence: You %r nothing, Jon Snow.\n", "know");
+	
+	printf("%p\n", addr);
+	_printf("%p\n", addr);
 
 	return (0);
 }
