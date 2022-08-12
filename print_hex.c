@@ -6,7 +6,7 @@
  *
  * Return: the number of the chars printed
  */
-int print_hexadecimal_caps(int x)
+int print_hexadecimal_caps(unsigned int x)
 {
 	char *str;
 	int i, j;
@@ -16,7 +16,7 @@ int print_hexadecimal_caps(int x)
 	 *use itoa function to convert int to string that can be
 	 * input in _putchar
 	 */
-	str = itoa(x, 16);/* here 16 means hexadecimal notation*/
+	str = unsigned_itoa(x, 16);/* here 16 means hexadecimal notation*/
 	for (i = 0; str[i] != '\0'; i++)
 	{
 		if (str[i] >= 'a' && str[i] <= 'z')
@@ -35,7 +35,7 @@ int print_hexadecimal_caps(int x)
  *
  * Return: the number of the chars printed
  */
-int print_hexadecimal_small(int x)
+int print_hexadecimal_small(unsigned int x)
 {
 	char *str;
 	int i;
@@ -44,7 +44,7 @@ int print_hexadecimal_small(int x)
 	*use itoa function to convert int to string that can be
 	* input in _putchar
 	*/
-	str = itoa(x, 16);/* here 16 means hexadecimal notation*/
+	str = unsigned_itoa(x, 16);/* here 16 means hexadecimal notation*/
 	for (i = 0; str[i] != '\0'; i++)
 	{
 		write(1, &str[i], 1);

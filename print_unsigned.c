@@ -6,17 +6,14 @@
  *
  * Return: number of chars printed or error
  */
-int print_unsigned(int x)
+int print_unsigned(unsigned int x)
 {
 	int count = 0;
+	char *str;
 
-	/* case it's a negative */
-	if (x < 0)
-	{
-		return (-1);
-	}
-
-	count += print_int(x);
+	str = unsigned_itoa(x, 10);
+        
+        count += print_string(str);
 
 	return (count);
 }

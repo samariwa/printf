@@ -18,25 +18,39 @@
  */
 int print_args(const char format, va_list args)
 {
-	char *s;
-	int count, i = 0;
-	bool format_in_array = false;
-	char specifiers[8] = {'c', 'i', 'd', 'o', 'b', 'x', 'X', 'u'};
-	int (*print_func_arr[])(int) = {
-	print_char, print_int, print_decimal, print_octal, print_binary,
-	print_hexadecimal_small, print_hexadecimal_caps, print_unsigned
+	char *s, *r;
+	int count, i = 0, j = 0;
+	bool format_in_unsigned_array = false, format_in_signed_array = false;
+	char unsigned_specifiers[5] = {'o', 'b', 'x', 'X', 'u'};
+	char signed_specifiers[3] = {'c', 'i', 'd'};
+	int (*print_unsigned_func_arr[])(unsigned int) = {
+	print_octal, print_binary,print_hexadecimal_small, print_hexadecimal_caps, 
+	print_unsigned
 	};
+	int (*print_signed_func_arr[])(int) = {
+        print_char, print_int, print_decimal
+        };
 
-	for (; i < 8; i++)
+	for (; i < 5; i++)
 	{
-		if (format == specifiers[i])
+		if (format == unsigned_specifiers[i])
 		{
-			format_in_array = true;
+			format_in_unsigned_array = true;
 			break;
 		}
 	}
-	if (format_in_array == true)
-		count = (*print_func_arr[i])(va_arg(args, int));
+	for (; j < 3; j++)
+        {
+                if (format == signed_specifiers[j])
+                {
+                        format_in_signed_array = true;
+                        break;
+                }
+        }
+	if (format_in_signed_array == true)
+		count = (*print_signed_func_arr[j])(va_arg(args, int));
+	else if (format_in_unsigned_array == true)
+                count = (*print_unsigned_func_arr[i])(va_arg(args, unsigned int));
 	else
 	{
 		switch (format)
@@ -47,6 +61,10 @@ int print_args(const char format, va_list args)
 				return (-1);
 			count = print_string(s);
 			break;
+		case 'r':
+			r = va_arg(args, char *);
+			count = print_rev(r);
+			break;	
 		case '%':
 			count = print_char('%');
 			break;

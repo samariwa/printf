@@ -6,20 +6,16 @@
  *
  * Return: the number of the chars printed
  */
-int print_octal(int x)
+int print_octal(unsigned int x)
 {
 	char *str;
 	int i;
 
-	if (x < 0)
-	{
-		x *= -1;
-	}
 	/*
 	 *use itoa function to convert int to string that can be
 	 * input in _putchar
 	 */
-	str = itoa(x, 8);/* here 8 means octal notation*/
+	str = unsigned_itoa(x, 8);/* here 8 means octal notation*/
 	for (i = 0; str[i] != '\0'; i++)
 	{
 		write(1, &str[i], 1);
