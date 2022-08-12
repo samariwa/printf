@@ -19,7 +19,7 @@
 int print_args(const char format, va_list args)
 {
 	char *s;
-	int count, t;
+	int count;
 
 	switch (format)
 	{
@@ -30,19 +30,21 @@ int print_args(const char format, va_list args)
 		count = print_int(va_arg(args, int));
 		break;
 	case 'd':
-		/*change after we finish print_decimal */
 		count = print_decimal(va_arg(args, int));
 		break;
 	case 'b':
 		count = print_binary(va_arg(args, int));
 		break;
+	case 'x':
+		count = print_hexadecimal(va_arg(args, int), 'x');
+		break;
+	case 'X':
+		count = print_hexadecimal(va_arg(args, int), 'X');
+		break;
 	case 's':
 		s = va_arg(args, char *);
-		t = NULL_S(s);/* refer to definition */
-		if (t == -1)
-		{
+		if (NULL_S(s) == -1)
 			return (-1);
-		}
 		count = print_string(s);
 		break;
 	case '%':

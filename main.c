@@ -14,6 +14,9 @@ int main(void)
 	_printf("%i, %i\n", INT_MAX, INT_MIN);
 
 	_printf("Let's print a simple sentence.\n");
-	_printf("%b\n", 98);
+	_printf("%b\n", 0);
+
+	_printf("%x\n%X\n", 53453, 53453);
+
 	return (0);
 }

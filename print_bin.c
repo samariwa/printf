@@ -15,7 +15,7 @@ int print_binary(int x)
 	*use itoa function to convert int to binary that can be
 	* input in _putchar
 	*/
-	str = itoa(x, 2);/* here 16 means hexadecimal notation*/
+	str = itoa(x, 2);/* here 2 means binary notation*/
 	for (i = 0; str[i] != '\0'; i++)
 		write(1, &str[i], 1);
 

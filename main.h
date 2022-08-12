@@ -16,7 +16,7 @@ int print_int(int x);
 int print_binary(int x);
 int print_decimal(int x);
 void print_float(float x);
-void print_hexadecimal(int x);
+int print_hexadecimal(int x, char c);
 char* itoa(int val, int base);
 
 /* main function */
