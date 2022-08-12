@@ -14,5 +14,8 @@ int main(void)
 	_printf("%i, %i\n", INT_MAX, INT_MIN);
 
 	_printf("Let's print a simple sentence.\n");
+	_printf("There is %d bytes in %d KB\n",
+		1024, 1);
+	_printf("%%");
 	return (0);
 }
