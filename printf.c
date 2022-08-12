@@ -33,6 +33,9 @@ int print_args(const char format, va_list args)
 		/*change after we finish print_decimal */
 		count = print_decimal(va_arg(args, int));
 		break;
+	case 'b':
+		count = print_binary(va_arg(args, int));
+		break;
 	case 's':
 		s = va_arg(args, char *);
 		t = NULL_S(s);/* refer to definition */
