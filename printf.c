@@ -3,6 +3,70 @@
 #define NULL_S(S) ((S) == NULL ? (-1) : (1))
 
 /**
+ * other_arg_printer - print variadic args whose value can't
+ * be classified into signed or unsigned
+ * @format: a char to represent a given specifier for type
+ * @args: current variadic argument to match printf specification
+ *
+ * Return: number of chars printed or -1 for errors
+ */
+int other_arg_printer(const char format, va_list args)
+{
+	char *s, *r;
+	unsigned int p;
+	int count;
+
+	switch (format)
+	{
+	case 's':
+		s = va_arg(args, char *);
+		if (NULL_S(s) == -1)
+			return (-1);
+		count = print_string(s);
+		break;
+	case 'r':
+		r = va_arg(args, char *);
+		count = print_rev(r);
+		break;
+	case 'p':
+		p = (uintptr_t)va_arg(args, void *);
+		count = print_pointer(p);
+		break;
+	case '%':
+		count = print_char('%');
+		break;
+	default:
+		count = -1;
+		break;
+	}
+
+	return (count);
+}
+
+/**
+ * check_specifiers - check to see if a specifier was found
+ * @format: char to compare with our given specifier
+ * @specifiers: array of our given specifiers
+ * @n: size of our array
+ *
+ * Return: true or false
+ */
+bool check_specifiers(const char format, char *specifiers, int n)
+{
+	int i;
+
+	for (i = 0; i < n; i++)
+	{
+		if (format == specifiers[i])
+		{
+			return (true);
+		}
+	}
+
+	return (false);
+}
+
+/**
  * print_args - print given variadic arguments given type specifier from printf
  * @args: all the ... arguments
  * @format:the current suspect specifier
@@ -18,65 +82,37 @@
  */
 int print_args(const char format, va_list args)
 {
-	char *s, *r;
-	int count, i = 0, j = 0;
-	unsigned int p;
+	int count, i, j;
 	bool format_in_unsigned_array = false, format_in_signed_array = false;
 	char unsigned_specifiers[5] = {'o', 'b', 'x', 'X', 'u'};
 	char signed_specifiers[3] = {'c', 'i', 'd'};
+
 	int (*print_unsigned_func_arr[])(unsigned int) = {
-	print_octal, print_binary,print_hexadecimal_small, print_hexadecimal_caps, 
-	print_unsigned
+	print_octal, print_binary, print_hexadecimal_small,
+	print_hexadecimal_caps, print_unsigned
 	};
 	int (*print_signed_func_arr[])(int) = {
-        print_char, print_int, print_decimal
-        };
+		print_char, print_int, print_decimal
+	};
 
-	for (; i < 5; i++)
-	{
-		if (format == unsigned_specifiers[i])
-		{
-			format_in_unsigned_array = true;
-			break;
-		}
-	}
-	for (; j < 3; j++)
-        {
-                if (format == signed_specifiers[j])
-                {
-                        format_in_signed_array = true;
-                        break;
-                }
-        }
+	j = 5;/* size of unsigned */
+	i = 3;/* size of signed */
+	format_in_unsigned_array = check_specifiers(format,
+						    unsigned_specifiers, j);
+
+	format_in_signed_array = check_specifiers(format,
+						    signed_specifiers, i);
+
 	if (format_in_signed_array == true)
 		count = (*print_signed_func_arr[j])(va_arg(args, int));
 	else if (format_in_unsigned_array == true)
-                count = (*print_unsigned_func_arr[i])(va_arg(args, unsigned int));
+	{
+		count = (*print_unsigned_func_arr[i])(va_arg(args,
+							     unsigned int));
+	}
 	else
 	{
-		switch (format)
-		{
-		case 's':
-			s = va_arg(args, char *);
-			if (NULL_S(s) == -1)
-				return (-1);
-			count = print_string(s);
-			break;
-		case 'r':
-			r = va_arg(args, char *);
-			count = print_rev(r);
-			break;
-		case 'p':
-			p = (uintptr_t)va_arg(args,void *);
-			count = print_pointer(p);
-			break;	
-		case '%':
-			count = print_char('%');
-			break;
-		default:
-			count = -1;
-			break;
-		}
+		count = other_arg_printer(format, args);
 	}
 	return (count);
 }

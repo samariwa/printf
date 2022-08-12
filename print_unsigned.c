@@ -12,8 +12,8 @@ int print_unsigned(unsigned int x)
 	char *str;
 
 	str = unsigned_itoa(x, 10);
-        
-        count += print_string(str);
+
+	count += print_string(str);
 
 	return (count);
 }

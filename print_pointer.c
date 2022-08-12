@@ -2,7 +2,7 @@
 
 /**
  * print_pointer - a function that prints the address of the input
- * @str: The pointer of the string to be printed
+ * @ptr: The pointer of the string to be printed
  *
  *Return: Length or error
  */
