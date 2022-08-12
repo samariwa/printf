@@ -14,5 +14,18 @@ int main(void)
 	_printf("%i, %i\n", INT_MAX, INT_MIN);
 
 	_printf("Let's print a simple sentence.\n");
+	_printf("%b\n", 0);
+
+	printf("Start\n%o\n%o\n", -53453, 53453);
+	printf("new\n%s\n%s\n", itoa(-53453, 8), itoa(53453, 8));
+
+	_printf("%o\n", 53453);
+
+	printf("Hapa\n%u\n%u\n%u\n", -5, INT_MAX - 5, INT_MAX);
+
+	_printf("%x\n%X\n", 53478, 53478);
+
+	_printf("%u\n", 463);
+
 	return (0);
 }

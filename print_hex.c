@@ -1,13 +1,12 @@
 #include "main.h"
 
 /**
- * print_hexadecimal - a function that prints hexadecimal of input
- * @x: The number to be printed as hexadecimal
- * @c: The specifier of the case of the hexadecimal to be output
+ * print_hexadecimal_caps - a function that prints hexadecimal of input
+ * @x: The number to be printed as hexadecimal in capital letters
  *
  * Return: the number of the chars printed
  */
-int print_hexadecimal(int x, char c)
+int print_hexadecimal_caps(int x)
 {
 	char *str;
 	int i, j;
@@ -20,15 +19,35 @@ int print_hexadecimal(int x, char c)
 	str = itoa(x, 16);/* here 16 means hexadecimal notation*/
 	for (i = 0; str[i] != '\0'; i++)
 	{
-		if (c == 'X' && str[i] > 'a' && str[i] < 'z')
+		if (str[i] >= 'a' && str[i] <= 'z')
 		{
 			str[i] -= j;
-			write(1, &str[i], 1);
 		}
-		else
-		{
-			write(1, &str[i], 1);
-		}
+		write(1, &str[i], 1);
+	}
+
+	return (i);
+}
+
+/**
+ * print_hexadecimal_small - a function that prints hexadecimal of input
+ * @x: The number to be printed as hexadecimal in small letters
+ *
+ * Return: the number of the chars printed
+ */
+int print_hexadecimal_small(int x)
+{
+	char *str;
+	int i;
+
+	/*
+	*use itoa function to convert int to string that can be
+	* input in _putchar
+	*/
+	str = itoa(x, 16);/* here 16 means hexadecimal notation*/
+	for (i = 0; str[i] != '\0'; i++)
+	{
+		write(1, &str[i], 1);
 	}
 
 	return (i);

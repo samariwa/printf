@@ -19,42 +19,42 @@
 int print_args(const char format, va_list args)
 {
 	char *s;
-	int count;
+	int count, i = 0;
+	bool format_in_array = false;
+	char specifiers[8] = {'c', 'i', 'd', 'o', 'b', 'x', 'X', 'u'};
+	int (*print_func_arr[])(int) = {
+	print_char, print_int, print_decimal, print_octal, print_binary,
+	print_hexadecimal_small, print_hexadecimal_caps, print_unsigned
+	};
 
-	switch (format)
+	for (; i < 8; i++)
 	{
-	case 'c':
-		count = print_char(va_arg(args, int));
-		break;
-	case 'i':
-		count = print_int(va_arg(args, int));
-		break;
-	case 'd':
-		count = print_decimal(va_arg(args, int));
-		break;
-	case 'b':
-		count = print_binary(va_arg(args, int));
-		break;
-	case 'x':
-		count = print_hexadecimal(va_arg(args, int), 'x');
-		break;
-	case 'X':
-		count = print_hexadecimal(va_arg(args, int), 'X');
-		break;
-	case 's':
-		s = va_arg(args, char *);
-		if (NULL_S(s) == -1)
-			return (-1);
-		count = print_string(s);
-		break;
-	case '%':
-		count = print_char('%');
-		break;
-	default:
-		count = -1;
-		break;
+		if (format == specifiers[i])
+		{
+			format_in_array = true;
+			break;
+		}
 	}
-
+	if (format_in_array == true)
+		count = (*print_func_arr[i])(va_arg(args, int));
+	else
+	{
+		switch (format)
+		{
+		case 's':
+			s = va_arg(args, char *);
+			if (NULL_S(s) == -1)
+				return (-1);
+			count = print_string(s);
+			break;
+		case '%':
+			count = print_char('%');
+			break;
+		default:
+			count = -1;
+			break;
+		}
+	}
 	return (count);
 }
 
