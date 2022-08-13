@@ -24,7 +24,10 @@ int print_hexadecimal_caps(unsigned int x);
 char *unsigned_itoa(unsigned int val, int base);
 char* itoa(int val, int base);
 int print_unsigned(unsigned int x);
+
+int check_null(const char *format);
 /* main function */
+
 int _printf(const char *format, ...);
 
 

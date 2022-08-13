@@ -67,6 +67,54 @@ bool check_specifiers(const char format, char *specifiers, int n)
 }
 
 /**
+ * use_specifiers - check to see if a specifier was found
+ * @format: char to compare with our given specifier
+ * @specifiers: array of our given specifiers chars
+ * @n: size of our array
+ * @type: signed or unsigned
+ * @args: variadic variablef from printf
+ *
+ * Return: number of chars printed
+ */
+int use_specifiers(const char format, char *specifiers, int n,
+		   char *type, va_list args)
+{
+	int i, count = 0;
+	int (*print_signed_func_arr[])(int) = {print_char, print_int,
+					       print_decimal};
+	int (*print_unsigned_func_arr[])(unsigned int) = {
+	print_octal, print_binary, print_hexadecimal_small,
+	print_hexadecimal_caps, print_unsigned
+	};
+
+	/* signed functions in here */
+	if (_strcmp(type, "signed") == 0)
+	{
+		for (i = 0; i < n; i++)
+		{
+			if (format == specifiers[i])
+			{
+				count = (*print_signed_func_arr[i])
+					(va_arg(args, int));
+				return (count);
+			}
+		}
+	}
+	/* unsigned functions over here */
+	for (i = 0; i < n; i++)
+	{
+		if (format == specifiers[i])
+		{
+			count = (*print_unsigned_func_arr[i])
+				(va_arg(args, unsigned int));
+			return (count);
+		}
+	}
+	_printf("Error\n");
+	return (-1);
+}
+
+/**
  * print_args - print given variadic arguments given type specifier from printf
  * @args: all the ... arguments
  * @format:the current suspect specifier
@@ -87,14 +135,6 @@ int print_args(const char format, va_list args)
 	char unsigned_specifiers[5] = {'o', 'b', 'x', 'X', 'u'};
 	char signed_specifiers[3] = {'c', 'i', 'd'};
 
-	int (*print_unsigned_func_arr[])(unsigned int) = {
-	print_octal, print_binary, print_hexadecimal_small,
-	print_hexadecimal_caps, print_unsigned
-	};
-	int (*print_signed_func_arr[])(int) = {
-		print_char, print_int, print_decimal
-	};
-
 	j = 5;/* size of unsigned */
 	i = 3;/* size of signed */
 	format_in_unsigned_array = check_specifiers(format,
@@ -104,68 +144,20 @@ int print_args(const char format, va_list args)
 						    signed_specifiers, i);
 
 	if (format_in_signed_array == true)
-		count = (*print_signed_func_arr[j])(va_arg(args, int));
+	{
+		count = use_specifiers(format, signed_specifiers,
+				       i, "signed", args);
+	}
 	else if (format_in_unsigned_array == true)
 	{
-		count = (*print_unsigned_func_arr[i])(va_arg(args,
-							     unsigned int));
+		count = use_specifiers(format, unsigned_specifiers,
+				       j, "unsigned", args);
 	}
 	else
 	{
 		count = other_arg_printer(format, args);
 	}
 	return (count);
-}
-
-/**
- * check_null - check if the _printf function has
- * a string that does not act as we expect
- * this has nothing to do with our variadic
- * @format: the string we wanna check
- * Return: 0 if ok else -1
- */
-int check_null(const char *format)
-{
-	char *temp;
-	int i, j, r_val = 1;
-	char options[] = {'c', 's', 'd', 'i', '%', '\0'};
-
-	if (format == NULL || (format[0] == '%' && format[1] == '\0'))
-	{
-		return (-1);
-	}
-
-	/* check for % without correct specifiers */
-	i = 0;
-	temp = (char *)format;
-	while (i < _strlen(temp))
-	{
-		j = 0;
-		while (j < 5)
-		{
-			if ((format[i] == '%' &&
-			     format[i + 1] == options[j] &&
-			     (i + 1) < _strlen(temp)))
-			{
-				r_val = 0;
-			}
-			if (format[i] == '%' &&
-			    (i + 1) >= _strlen(temp))
-			{
-				r_val = -1;
-				break;
-			}
-
-			j++;
-		}
-		i++;
-	}
-	/* check if there was a mismatch with our flags */
-	if (r_val < 0)
-	{
-		return (-1);
-	}
-	return (0);
 }
 
 /**
